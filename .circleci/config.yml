@@ -14,7 +14,6 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys
-      - run: cat ~/.ssh/known_hosts
       - run: echo '51.254.137.86 ecdsa-sha2-nistp256 AAAAB3NzaC1yc2EAAAADAQABAAABAQCaf/k/8ldUuXJ2kksFfEeNYwyMKbRmDKmkk/z1Mg6kW4sKvKg9uiE6goyOz/044bGRrzcp/slX4idlBIwm8XQQiddxT76iExrhPSpf8/qeZLKUgyipq62+GttXEhGZtLx8fc1OnXbVOP2jPup0bRqhh7Y3fAL3X2zpfW9KCRfCUqZta40RLrUGcYluODhNfGgWDDHY2ew5RXGoc8fZjlCY5yRhFd13GPYXHhlP36SjbhYR+BrsavEIOXZxnK3ZOxAMltFlcrPTErsNG5YnKYym6teOTPKH9t0qWsdETxE1t3OdtZQv48HPmoNMHdODzPeOHV8hAKC5pVRNvOD+j7qL' >> ~/.ssh/known_hosts
       - deploy:
           command: ansible-playbook -i deploy/inventory deploy/deploy.yml
