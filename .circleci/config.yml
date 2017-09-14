@@ -9,6 +9,8 @@ jobs:
       - run: make build
       - run: cp bin/app deploy/roles/deploy/files/app
   deploy:
+    docker:
+      - image: williamyeh/ansible:alpine3-onbuild
     steps:
       - checkout
       - deploy:
