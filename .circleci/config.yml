@@ -8,5 +8,14 @@ jobs:
       - checkout
       - run: make build
       - run: cp bin/app deploy/roles/deploy/files/app
+  deploy:
+    steps:
+      - checkout
       - deploy:
           command: ansible-playbook -i deploy/inventory deploy/deploy.yml
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - deploy
