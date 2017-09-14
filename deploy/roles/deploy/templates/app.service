@@ -1,0 +1,19 @@
+[Unit]
+Description=app-{{ item }}
+OnFailure=unit-status-mail@%n.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+StartLimitInterval=120
+StartLimitBurst=3
+EnvironmentFile=/etc/app.{{ env }}.cfg
+User={{app_user}}
+Group={{app_group}}
+PIDFile=/var/run/app-{{ item }}.pid
+
+ExecStart={{ app_path }}/app 127.0.0.1:{{ item }}
+
+[Install]
+WantedBy=multi-user.target

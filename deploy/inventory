@@ -1,0 +1,9 @@
+[all:vars]
+ansible_ssh_private_key_file = ~/.ssh/id-rsa
+ansible_user = root
+
+[production]
+51.254.137.86
+
+[production:vars]
+env=production

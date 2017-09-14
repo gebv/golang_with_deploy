@@ -1,0 +1,37 @@
+---
+
+- name: TEST Create release dir
+  file: path=/opt/app/testing state=directory mode=0755 owner={{ app_user}} group={{ app_group }}
+
+- name: TEST Copy app bin file
+  copy: src=app dest=/opt/app/testing/ owner={{ app_user}} group={{ app_group }} force=yes mode=a+x
+
+- name: TEST Generate systemd config
+  template: src=app.service dest=/etc/systemd/system/app-{{ item }}.service mode=0644 owner=root group=root
+  with_items: "7999"
+
+- name: "Start app-7999"
+  systemd: state=started daemon_reload=yes name=app-{{ item }}.service
+  with_items: "7999"
+
+- name: TEST Check app status
+  uri:
+    url: "http://127.0.0.1:7999/stats"
+    return_content: yes
+    method: GET
+    status_code: 200
+    body_format: json
+  register: json_test_response
+  until: json_test_response.json.status == "ok"
+
+- name: TEST stop deploy
+  fail: msg="Deploy failed"
+  when: "{{ json_test_response.json.status != 'ok' }}"
+
+- name: TEST stop app-7999
+  systemd: state=stopped daemon_reload=yes name=app-{{ item }}.service
+  with_items: "7999"
+
+- name: TEST Delete test app-7999.service
+  file: state=absent path=/etc/systemd/system/app-{{ item }}.service
+  with_items: "7999"
