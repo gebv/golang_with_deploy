@@ -2,7 +2,7 @@ VERSION=v0.1
 GITHASH=`git log -1 --pretty=format:"%h" || echo "???"`
 CURDATE=`date -u +%Y%m%d.%H%M%S`
 GITURL=github.com
-GITLOGIN=your_login
+GITLOGIN=gebv
 GITPRNAME=project_name
 
 APPVERSION=${VERSION}-${GITHASH}:${CURDATE}
