@@ -14,7 +14,6 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys
-        - 51.254.137.86
       - deploy:
           command: ansible-playbook -i deploy/inventory deploy/deploy.yml
 workflows:
