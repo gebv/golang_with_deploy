@@ -2,10 +2,11 @@ version: 2
 jobs:
   deploy:
     docker:
-      - image: ansible/centos7-ansible:stable
+      - image: williamyeh/ansible
     steps:
       - checkout
       - add_ssh_keys
+      - run: ansible --version
       - deploy:
           command: cd deploy && ansible-playbook -i inventory deploy.yml
 workflows:
