@@ -101,7 +101,7 @@ func main() {
 
 func stats(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, map[string]string{
-		"status":  "ok",
-		"verions": VERSION,
+		"status": "ok",
+		// "verions": VERSION,
 	})
 }
