@@ -61,12 +61,13 @@
   when: status == True
   tags: ['ls']
 
-- name: Debug
-  debug: msg="{{ pre_version }}"
+- name: DEBUG
+  debug: msg="{{ pre_version.stdout }}
+  when: status == True
   tags: ['ls']
 
 - name: Get previous config
-  command: bash -c "cat /opt/app/{{ pre_version.stdout }}/config.json"
+  command: bash -c "cat /opt/app/{{ item }}/config.json"
   with_items: "{{ pre_version.stdout }}"
   register: pre_config
   when: status == True
