@@ -13,7 +13,7 @@ User={{app_user}}
 Group={{app_group}}
 PIDFile=/var/run/app-{{ item }}.pid
 
-ExecStart={{ app_path }}/app 127.0.0.1:{{ item }}
+ExecStart={{ app_path }}/app api run --address 127.0.0.1:{{ item }}
 
 [Install]
 WantedBy=multi-user.target

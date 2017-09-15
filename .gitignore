@@ -30,5 +30,3 @@ _testmain.go
 vendor/
 
 bin
-.DS_Store
-deploy/deploy.retry
