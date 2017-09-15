@@ -56,6 +56,10 @@
 #  when: status == False
   tags: ['ls']
 
+- name: Debug
+  debug: msg="{{ pre_version }}"
+  tags: ['ls']
+
 - name: Get previous config
   shell: "cat /opt/app/{{ item }}/config.json"
   with_items: "{{ pre_version.stdout_lines }}"
