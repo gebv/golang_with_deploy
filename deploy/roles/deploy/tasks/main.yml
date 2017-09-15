@@ -63,7 +63,7 @@
 
 - name: DEBUG
   debug: msg="{{ pre_version.stdout }}"
-  when: "{{ status == '1' }}"
+  when: "{{ status == '0' }}"
   tags: ['ls']
 
 - name: Get previous config
