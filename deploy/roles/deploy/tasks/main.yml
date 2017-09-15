@@ -68,9 +68,9 @@
 
 - name: Get previous config
   command: bash -c "cat /opt/app/{{ item }}/config.json"
-  with_items: "{{ pre_version.stdout }}"
-  register: pre_config
+  with_items: "{{ pre_version }}"
   when: status == True
+  register: pre_config
   tags: ['ls']
 
 - name: Create symlink to new app
