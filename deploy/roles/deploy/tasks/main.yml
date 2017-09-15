@@ -53,7 +53,7 @@
 - name: Get previous
   command: bash -c "ls /opt/app/ | sort | tail -1 | head -1"
   register: pre_version
-  when: status == False
+#  when: status == False
   tags: ['ls']
 
 - name: Get previous config
