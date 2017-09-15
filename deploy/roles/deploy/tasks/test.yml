@@ -6,6 +6,9 @@
 - name: TEST Copy app bin file
   copy: src=app dest=/opt/app/testing/ owner={{ app_user}} group={{ app_group }} force=yes mode=a+x
 
+- name: Create symlink to new app
+  file: src=/opt/app/testing/app dest=/usr/local/bin/app state=link force=yes
+
 - name: TEST Generate systemd config
   template: src=app.service dest=/etc/systemd/system/app-{{ item }}.service mode=0644 owner=root group=root
   with_items: "7999"
@@ -35,3 +38,6 @@
 - name: TEST Delete test app-7999.service
   file: state=absent path=/etc/systemd/system/app-{{ item }}.service
   with_items: "7999"
+
+- name: TEST Delete test app
+  file: state=absent path=/usr/local/bin/app
