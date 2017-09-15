@@ -3,7 +3,7 @@ ansible_ssh_private_key_file = ~/.ssh/id_rsa_5b1011df8233c2c1b874173283ae50a6
 ansible_user = root
 
 [production]
-51.15.223.161
+51.15.207.200
 
 [production:vars]
 env=production
