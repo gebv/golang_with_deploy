@@ -17,7 +17,6 @@ jobs:
   deploy:
     docker:
       - image: williamyeh/ansible:alpine3
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - checkout
       - add_ssh_keys
