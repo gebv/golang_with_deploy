@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	cli "gopkg.in/urfave/cli.v2"
 )
 
 var VERSION = "dev"
@@ -18,10 +20,28 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	if len(os.Args) < 2 {
-		panic("empty address")
+	app := &cli.App{}
+	app.Name = "audiocrm-backend"
+	app.Version = VERSION
+	app.Commands = []*cli.Command{
+		{
+			Name: "api",
+			Subcommands: []*cli.Command{
+				{
+					Name: "run",
+					Flags: []cli.Flag{
+						&cli.StringFlag{Name: "address", Value: ":8944"},
+					},
+					Action: func(c *cli.Context) error {
+						fmt.Println("start listen", c.String("address"))
+						http.HandleFunc("/", handler)
+						fmt.Println(http.ListenAndServe(c.String("address"), nil))
+
+						return nil
+					},
+				},
+			},
+		},
 	}
-	fmt.Println("start listen", os.Args[1])
-	http.HandleFunc("/", handler)
-	fmt.Println(http.ListenAndServe(os.Args[1], nil))
+	app.Run(os.Args)
 }
