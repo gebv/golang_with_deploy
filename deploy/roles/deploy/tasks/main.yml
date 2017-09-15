@@ -59,6 +59,7 @@
 - name: Get previous config
   shell: "cat /opt/app/{{ item }}/config.json"
   with_items: "{{ pre_version.stdout_lines }}"
+  ignore_errors: yes
   register: pre_config
   when: status == True
 
