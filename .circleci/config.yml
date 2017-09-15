@@ -7,7 +7,7 @@ jobs:
       - checkout
       - add_ssh_keys
       - deploy:
-          command: cd deploy && ansible-playbook -i inventory deploy.yml -vvv
+          command: cd deploy && ansible-playbook -i inventory deploy.yml
 workflows:
   version: 2
   build_and_test:
