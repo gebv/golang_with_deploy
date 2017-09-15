@@ -58,35 +58,35 @@
 - name: Get previous
   command: bash -c "ls /opt/app/ | sort | tail -1 | head -1"
   register: pre_version
-  when: {{ status == '1' }}
+  when: "{{ status == '1' }}"
   tags: ['ls']
 
 - name: DEBUG
   debug: msg="{{ pre_version.stdout }}"
-  when: {{ status == '1' }}
+  when: "{{ status == '1' }}"
   tags: ['ls']
 
 - name: Get previous config
   command: bash -c "cat /opt/app/{{ item }}/config.json"
   with_items: "{{ pre_version }}"
-  when: {{ status == '1' }}
+  when: "{{ status == '1' }}"
   register: pre_config
   tags: ['ls']
 
 - name: Create symlink to new app
   file: src=/opt/app/{{ item }}/app dest=/usr/local/bin/app state=link force=yes
   with_items: "{{ pre_version.stdout }}"
-  when: {{ status == '1' }}
+  when: "{{ status == '1' }}"
 
 - name: Generate systemd config
   template: src=app.service dest=/etc/systemd/system/app-{{ item }}.service mode=0644 owner=root group=root
   with_items: "{{ pre_config.results }}"
-  when: {{ status == '1' }}
+  when: "{{ status == '1' }}"
 
 - name: Start apps
   systemd: state=started daemon_reload=yes name=app-{{ item }}.service
   with_items: "{{ pre_config.results }}"
-  when: {{ status == '1' }}
+  when: "{{ status == '1' }}"
 
 - name: Generate nginx config
   template: src=nginx.app dest=/etc/nginx/conf.d/app.conf mode=0644 owner=root group=root
