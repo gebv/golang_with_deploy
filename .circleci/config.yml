@@ -7,8 +7,10 @@ jobs:
     steps:
       - checkout
       - run: make build
+      - run: pwd
+      - run: ls -lha
       - save_cache:
-          key: app-bin-cache
+          key: app-bin
           paths:
             - ./bin
 
@@ -21,7 +23,9 @@ jobs:
       - checkout
       - add_ssh_keys
       - restore_cache:
-          key: app-bin-cache
+          key: app-bin
+      - run: pwd
+      - run: ls -lha
       - run: cp ./bin/app ./deploy/roles/deploy/files/app
       - deploy:
           command: cd deploy && ansible-playbook -e 'host_key_checking=False' -e 'deprecation_warnings=False' -i inventory deploy.yml
