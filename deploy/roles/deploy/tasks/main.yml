@@ -3,17 +3,21 @@
 - name: Release id
   shell: 'date +%Y%m%d%H%M%S'
   register: release_id
+  tags: ['ls']
 
 - name: Generate ports
   debug: msg="do something"
   with_sequence: start=8000 end={{ 8000 + (app_instance - 1) }}
   register: apps_port
+  tags: ['ls']
 
 - name: Set fact port
   set_fact: ports="{{ apps_port.results | map(attribute='item') | list }}"
+  tags: ['ls']
 
 - name: Set fact env
   set_fact: env="{{ hostvars[inventory_hostname]['env'] }}"
+  tags: ['ls']
 
 - name: Copy env file
   copy: src=env.{{ env }} dest=/etc/app.{{ env }}.cfg mode=0644 owner=root group=root
@@ -49,11 +53,12 @@
   rescue:
     - name: Set fact rollback True
       set_fact: status=False
+  tags: ['ls']
 
 - name: Get previous
   command: bash -c "ls /opt/app/ | sort | tail -1 | head -1"
   register: pre_version
-#  when: status == False
+  when: status == False
   tags: ['ls']
 
 - name: Debug
@@ -62,13 +67,14 @@
 
 - name: Get previous config
   shell: "cat /opt/app/{{ item }}/config.json"
-  with_items: "{{ pre_version.stdout_lines }}"
+  with_items: "{{ pre_version.stdout }}"
   register: pre_config
   when: status == False
+  tags: ['ls']
 
 - name: Create symlink to new app
   file: src=/opt/app/{{ item }}/app dest=/usr/local/bin/app state=link force=yes
-  with_items: "{{ pre_version.stdout_lines }}"
+  with_items: "{{ pre_version.stdout }}"
   when: status == False
 
 - name: Generate systemd config
