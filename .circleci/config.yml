@@ -2,7 +2,7 @@ version: 2
 jobs:
   deploy:
     docker:
-      - image: ansible/ubuntu14.04-ansible
+      - image: ansible/centos7-ansible:stable
     steps:
       - checkout
       - add_ssh_keys
