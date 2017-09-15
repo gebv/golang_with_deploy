@@ -12,7 +12,7 @@ import (
 var VERSION = "dev"
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{
 		"verions": VERSION,
