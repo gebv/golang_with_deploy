@@ -49,12 +49,17 @@
   rescue:
     - name: Set fact rollback True
       set_fact: status="True"
-  tags: ['ls']
+
+- name: Debug1
+  debug: msg={{ status }}
 
 - name: Get previous
   command: bash -c "ls /opt/app/ | sort | tail -1 | head -1"
   register: pre_version
   when: status == "True"
+
+- name: Debug1
+  debug: msg={{ pre_version }}
 
 - name: Get previous config
   shell: "cat /opt/app/{{ item }}/config.json"
