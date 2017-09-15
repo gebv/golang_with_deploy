@@ -3,11 +3,10 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.8
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/gebv/golang_with_deploy
     steps:
       - checkout
       - run: make build
-      - run: ls -lha
       - save_cache:
           key: app-bin-cache
           paths:
@@ -17,12 +16,12 @@ jobs:
   deploy:
     docker:
       - image: williamyeh/ansible:alpine3
+    working_directory: /go/src/github.com/gebv/golang_with_deploy
     steps:
       - checkout
       - add_ssh_keys
       - restore_cache:
           key: app-bin-cache
-      - run: ls -lha
       - run: cp ./bin/app ./deploy/roles/deploy/files/app
       - deploy:
           command: cd deploy && ansible-playbook -e 'host_key_checking=False' -e 'deprecation_warnings=False' -i inventory deploy.yml
