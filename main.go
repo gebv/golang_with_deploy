@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -9,7 +10,11 @@ import (
 var VERSION = "dev"
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "version=%s path=%s", VERSION, r.URL.Path)
+	json.NewEncoder(w).Encode(map[string]string{
+		"verions": VERSION,
+		"path":    r.URL.Path,
+		"status":  "ok",
+	})
 }
 
 func main() {

@@ -1,5 +1,18 @@
 version: 2
 jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.8
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+      - checkout
+      - run: make build
+      - save_cache:
+          key: app-bin-cache
+          paths:
+            - ./bin
+
+
   deploy:
     docker:
       - image: williamyeh/ansible:alpine3
@@ -7,10 +20,14 @@ jobs:
       - checkout
       - add_ssh_keys
       - run: ansible --version
+      - restore_cache:
+          key: app-bin-cache
+      - run: cp ./bin/app ./deploy/roles/deploy/files
       - deploy:
           command: cd deploy && ansible-playbook -e 'host_key_checking=False' -e 'deprecation_warnings=False' -i inventory deploy.yml
 workflows:
   version: 2
   build_and_test:
     jobs:
+      - build
       - deploy
