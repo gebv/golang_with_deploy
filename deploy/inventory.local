@@ -1,0 +1,9 @@
+[all:vars]
+ansible_ssh_private_key_file = ~/.ssh/aws-home
+ansible_user = root
+
+[production]
+51.15.207.200
+
+[production:vars]
+env=production

@@ -41,3 +41,6 @@
 
 - name: TEST Delete test app
   file: state=absent path=/usr/local/bin/app
+
+- name: TEST Delete test app
+  file: state=absent path=/opt/app/testing
