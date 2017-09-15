@@ -15,6 +15,12 @@
 - name: Set fact env
   set_fact: env="{{ hostvars[inventory_hostname]['env'] }}"
 
+- name: Create app user
+  user: name={{ app_user }} comment="{{ app_user }} user"
+
+- name: Copy nginx.conf
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+
 - name: Copy env file
   copy: src=env.{{ env }} dest=/etc/app.{{ env }}.cfg mode=0644 owner=root group=root
 
