@@ -2,7 +2,7 @@ version: 2
 jobs:
   deploy:
     docker:
-      - image: williamyeh/ansible:alpine3-onbuild
+      - image: ansible/ansible
     steps:
       - checkout
       - add_ssh_keys
