@@ -52,6 +52,7 @@
 
 - name: Get previous
   command: bash -c "ls /opt/app/ | sort | tail -1 | head -1"
+  ignore_errors: yes
   register: pre_version
   when: status == True
 
