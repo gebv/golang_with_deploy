@@ -1,5 +1,5 @@
 [all:vars]
-ansible_ssh_private_key_file = ~/.ssh/id_rsa_06b1a65bde8c0f9f0f2c13a0ca4c72dc
+ansible_ssh_private_key_file = ~/.ssh/id_rsa_5b1011df8233c2c1b874173283ae50a6
 ansible_user = root
 
 [production]
