@@ -19,8 +19,8 @@ jobs:
       - checkout
       - add_ssh_keys
       - attach_workspace:
-          at:
-            - bin
+          at: /go/src/github.com/gebv/golang_with_deploy
+      - run: ls -lha
       - run: cp ./bin/app ./deploy/roles/deploy/files/app
       - deploy:
           command: cd deploy && ansible-playbook -e 'host_key_checking=False' -e 'deprecation_warnings=False' -i inventory deploy.yml
