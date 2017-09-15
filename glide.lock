@@ -1,6 +1,48 @@
-hash: 6769c334bbe41c60a7c3a50cc00a108d92ef10438bb30cbc7cf59b61b9de569b
-updated: 2017-09-16T03:45:43.461822225+06:00
+hash: 28a873d645775ab971db0f330f0ddae2f71f592556152fcc379652ae8bbfb892
+updated: 2017-09-16T04:02:35.72318274+06:00
 imports:
+- name: github.com/dgrijalva/jwt-go
+  version: a539ee1a749a2b895533f979515ac7e6e0f5b650
+- name: github.com/labstack/echo
+  version: 1678da53d65d33464d578ace3d2854b30dfd8e4f
+  subpackages:
+  - middleware
+- name: github.com/labstack/gommon
+  version: 779b8a8b9850a97acba6a3fe20feb628c39e17c1
+  subpackages:
+  - bytes
+  - color
+  - log
+  - random
+- name: github.com/mattn/go-colorable
+  version: ad5389df28cdac544c99bd7b9161a0b5b6ca9d1b
+- name: github.com/mattn/go-isatty
+  version: fc9e8d8ef48496124e79ae0df75490096eccf6fe
+- name: github.com/valyala/bytebufferpool
+  version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
+- name: github.com/valyala/fasttemplate
+  version: dcecefd839c4193db0d35b88ec65b4c12d360ab0
+- name: go.uber.org/atomic
+  version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
+- name: go.uber.org/zap
+  version: 3216c4c73e8ebbafff73c456dd27143f4a7c1f94
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
+- name: golang.org/x/crypto
+  version: b0c9c05bfe149df95eb1d25642162cca051e0466
+  subpackages:
+  - acme
+  - acme/autocert
+- name: golang.org/x/sys
+  version: 062cd7e4e68206d8bab9b18396626e855c992658
+  subpackages:
+  - unix
 - name: gopkg.in/urfave/cli.v2
   version: 50a0fdeea6330854c7b05371cce1fac8c7e636d2
 testImports: []
