@@ -8,6 +8,7 @@ jobs:
       - checkout
       - run: make build
       - persist_to_workspace:
+          root: /go/src/github.com/gebv/golang_with_deploy
           paths:
             - bin/*
   deploy:
