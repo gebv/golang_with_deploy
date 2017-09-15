@@ -66,7 +66,7 @@
   tags: ['ls']
 
 - name: Get previous config
-  shell: "cat /opt/app/{{ item }}/config.json"
+  command: bash -c "cat /opt/app/{{ item }}/config.json"
   with_items: "{{ pre_version.stdout }}"
   register: pre_config
   when: status == False
