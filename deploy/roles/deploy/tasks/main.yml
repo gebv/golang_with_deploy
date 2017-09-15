@@ -45,10 +45,10 @@
       uri: url="http://127.0.0.1:{{ item }}/stats" return_content=yes method=GET status_code=200 body_format=json
       with_items: "{{ ports }}"
     - name: Set fact rollback False
-      set_fact: status="False"
+      set_fact: status=True
   rescue:
     - name: Set fact rollback True
-      set_fact: status="True"
+      set_fact: status=False
 
 - name: Debug1
   debug: msg={{ status }}
@@ -56,7 +56,7 @@
 - name: Get previous
   command: bash -c "ls /opt/app/ | sort | tail -1 | head -1"
   register: pre_version
-  when: status == "True"
+  when: status == False
 
 - name: Debug1
   debug: msg={{ pre_version }}
@@ -65,22 +65,22 @@
   shell: "cat /opt/app/{{ item }}/config.json"
   with_items: "{{ pre_version.stdout_lines }}"
   register: pre_config
-  when: status == "True"
+  when: status == False
 
 - name: Create symlink to new app
   file: src=/opt/app/{{ item }}/app dest=/usr/local/bin/app state=link force=yes
   with_items: "{{ pre_version.stdout_lines }}"
-  when: status == "True"
+  when: status == False
 
 - name: Generate systemd config
   template: src=app.service dest=/etc/systemd/system/app-{{ item }}.service mode=0644 owner=root group=root
   with_items: "{{ pre_config.results }}"
-  when: status == "True"
+  when: status == False
 
 - name: Start apps
   systemd: state=started daemon_reload=yes name=app-{{ item }}.service
   with_items: "{{ pre_config.results }}"
-  when: status == "True"
+  when: status == False
 
 - name: Generate nginx config
   template: src=nginx.app dest=/etc/nginx/conf.d/app.conf mode=0644 owner=root group=root
