@@ -7,6 +7,7 @@ jobs:
     steps:
       - checkout
       - run: make build
+      - run: ls -lha
       - save_cache:
           key: app-bin-cache
           paths:
@@ -16,13 +17,14 @@ jobs:
   deploy:
     docker:
       - image: williamyeh/ansible:alpine3
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - checkout
       - add_ssh_keys
-      - run: ansible --version
       - restore_cache:
           key: app-bin-cache
-      - run: cp ./bin/app ./deploy/roles/deploy/files
+      - run: ls -lha
+      - run: cp ./bin/app ./deploy/roles/deploy/files/app
       - deploy:
           command: cd deploy && ansible-playbook -e 'host_key_checking=False' -e 'deprecation_warnings=False' -i inventory deploy.yml
 workflows:
