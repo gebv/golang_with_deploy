@@ -44,10 +44,10 @@
     - name: Get JSON stats
       uri: url="http://127.0.0.1:{{ item }}/stats" return_content=yes method=GET status_code=200 body_format=json
       with_items: "{{ ports }}"
-    - name: Set fact rollback
+    - name: Set fact rollback False
       set_fact: status=False
   rescue:
-    - name: Set fact rollback
+    - name: Set fact rollback True
       set_fact: status=True
 
 - name: Get previous

@@ -6,11 +6,8 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys
-      #- run: echo '51.15.223.161 ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCx+f2RcuUYtMVwxSGsUP/CIkg9JQK8uibdMpTunmRjiVt1HvhuDsq+ce4x8qMLgDq4pTiNbZI7ZkjSwUmyDiKscWgfVkDaJJJ2sXWRyhGiI09Pmen/A2z4nhjjja5YI7rjyVbwoTC0frOUZD+qZZc7DHL+9Y6ON04+R+Uf1KA5GwkR2f06BrmS41ugz08FyaZ5hJgvGCtBTJgz0brJoepk+TQpuSsve3ukaZmnEN3tRcfQPmb7gwnoSCWbIjmxlW+hWMNuucWTuOZj4NXMcd9GC8//osyP35umsQxXkTythGF3SOzElPZVloXSdzVbdqULZzmqr23kxZFhkliB1UeP' >> ~/.ssh/known_hosts
-      - run: ls -lha ~/.ssh
-      - run: ansible --version
       - deploy:
-          command: cd deploy && ansible-playbook -i inventory deploy.yml
+          command: cd deploy && ansible-playbook -i inventory deploy.yml -vvv
 workflows:
   version: 2
   build_and_test:
