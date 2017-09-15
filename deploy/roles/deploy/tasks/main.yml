@@ -62,7 +62,7 @@
   tags: ['ls']
 
 - name: DEBUG
-  debug: msg="{{ pre_version.stdout }}
+  debug: msg="{{ pre_version.stdout }}"
   when: status == True
   tags: ['ls']
 
