@@ -7,10 +7,9 @@ jobs:
     steps:
       - checkout
       - run: make build
-      - save_cache:
-          key: app-bin-{{ .Environment.CIRCLE_BUILD_NUM }}
+      - persist_to_workspace:
           paths:
-            - ./bin
+            - bin/*
   deploy:
     docker:
       - image: williamyeh/ansible:alpine3
@@ -18,8 +17,9 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys
-      - restore_cache:
-          key: app-bin-{{ .Environment.CIRCLE_BUILD_NUM }}
+      - attach_workspace:
+          at:
+            - bin
       - run: cp ./bin/app ./deploy/roles/deploy/files/app
       - deploy:
           command: cd deploy && ansible-playbook -e 'host_key_checking=False' -e 'deprecation_warnings=False' -i inventory deploy.yml
