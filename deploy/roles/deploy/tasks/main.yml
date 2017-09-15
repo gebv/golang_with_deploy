@@ -3,36 +3,26 @@
 - name: Release id
   shell: 'date +%Y%m%d%H%M%S'
   register: release_id
-  tags: ['stats']
 
 - name: Generate ports
   debug: msg="do something"
   with_sequence: start=8000 end={{ 8000 + (app_instance - 1) }}
   register: apps_port
-  tags: ['stats']
 
 - name: Set fact port
   set_fact: ports="{{ apps_port.results | map(attribute='item') | list }}"
-  tags: ['stats']
 
 - name: Set fact env
   set_fact: env="{{ hostvars[inventory_hostname]['env'] }}"
-  tags: ['stats']
 
 - name: Copy env file
   copy: src=env.{{ env }} dest=/etc/app.{{ env }}.cfg mode=0644 owner=root group=root
-  tags: ['stats']
-
-#- name: Source the bashrc file
-#  shell: source /еtc/app.{{ hostvars[inventory_hostname]['env'] }}.cfg
 
 - name: Create release dir
   file: path=/opt/app/{{ release_id.stdout }} state=directory mode=0755 owner={{ app_user}} group={{ app_group }}
-  tags: ['stats']
 
 - name: Create config info
   template: src=config.json dest=/opt/app/{{ release_id.stdout }}/config.json mode=0755 owner={{ app_user}} group={{ app_group }}
-  tags: ['stats']
 
 - name: Copy app bin file
   copy: src=app dest=/opt/app/{{ release_id.stdout }}/ owner={{ app_user}} group={{ app_group }} force=yes mode=a+x
@@ -59,43 +49,35 @@
   rescue:
     - name: Set fact rollback
       set_fact: status=True
-  tags: ['stats']
 
 - name: Get previous
   command: bash -c "ls /opt/app/ | sort | tail -1 | head -1"
   register: pre_version
   when: status == True
-  tags: ['stats', 'ls']
 
 - name: Get previous config
   shell: "cat /opt/app/{{ item }}/config.json"
   with_items: "{{ pre_version.stdout_lines }}"
   register: pre_config
   when: status == True
-  tags: ['stats', 'ls']
 
 - name: Create symlink to new app
   file: src=/opt/app/{{ item }}/app dest=/usr/local/bin/app state=link force=yes
   with_items: "{{ pre_version.stdout_lines }}"
   when: status == True
-  tags: ['stats', 'ls']
 
 - name: Generate systemd config
   template: src=app.service dest=/etc/systemd/system/app-{{ item }}.service mode=0644 owner=root group=root
   with_items: "{{ pre_config.results }}"
   when: status == True
-  tags: ['stats', 'ls']
 
 - name: Start apps
   systemd: state=started daemon_reload=yes name=app-{{ item }}.service
   with_items: "{{ pre_config.results }}"
   when: status == True
-  tags: ['stats', 'ls']
 
 - name: Generate nginx config
   template: src=nginx.app dest=/etc/nginx/conf.d/app.conf mode=0644 owner=root group=root
-  tags: ['stats']
 
 - name: Reload nginx
   service: name=nginx state=reloaded
-  tags: ['stats']
