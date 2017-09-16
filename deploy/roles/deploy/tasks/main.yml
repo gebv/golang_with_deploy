@@ -37,7 +37,7 @@
   with_items: "{{ ports }}"
 
 - name: Start apps
-  systemd: state=started daemon_reload=yes name=app-{{ item }}.service
+  systemd: state=restarted daemon_reload=yes name=app-{{ item }}.service
   with_items: "{{ ports }}"
 
 - block:
@@ -72,7 +72,7 @@
   when: status == True
 
 - name: Start apps
-  systemd: state=started daemon_reload=yes name=app-{{ item }}.service
+  systemd: state=restarted daemon_reload=yes name=app-{{ item }}.service
   with_items: "{{ pre_config.results }}"
   when: status == True
 
