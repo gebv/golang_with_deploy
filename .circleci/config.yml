@@ -41,11 +41,6 @@ workflows:
           filters:
             branches:
               only: master
-  facke-deploy:
-    jobs:
-      build-and-deploy:
-    jobs:
-      - build
       - deploy_tag:
           requires:
             - build
