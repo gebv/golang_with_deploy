@@ -24,6 +24,12 @@ jobs:
       - run: cp ./bin/app ./deploy/roles/deploy/files/app
       - deploy:
           command: cd deploy && ansible-playbook -e 'host_key_checking=False' -e 'deprecation_warnings=False' -i inventory deploy.yml
+  deploy_tag:
+    docker:
+      - image: williamyeh/ansible:alpine3
+    working_directory: /go/src/github.com/gebv/golang_with_deploy
+    steps:
+      - run: echo "Deploy via TAG"
 workflows:
   version: 2
   build_and_test:
@@ -32,3 +38,14 @@ workflows:
       - deploy:
           requires:
             - build
+          filters:
+            branches:
+              only: master
+      - deploy_tag:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*stg.*/
