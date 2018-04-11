@@ -50,7 +50,7 @@ workflows:
           requires:
             - build
           filters:
+            tags:
+              only: /stg.*/
             branches:
               ignore: /.*/
-            tags:
-              only: /.*stg.*/
